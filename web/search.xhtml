@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="index.xhtml">
+    <ui:define name="source">
+       
+            <p:layout style="border: 0"> 
+                
+                    <h:form>
+                    <p:layoutUnit position="north" size="300">
+                          <p:panel header="Arama Formu" style="margin-bottom:10px;">
+                              <p:inputText id="search" placeholder="Aranacak metni buraya yazınız..." type="search" size="100"/>
+                              <p:commandButton value="Submit" update="searchResult" actionListener="#{searchController.search}" icon="ui-icon-check" style="margin:10px;" />
+                          </p:panel>
+                       </p:layoutUnit>
+
+                        <p:layoutUnit position="center">
+                         <h:form id="dataForm">
+                        <p:dataGrid   var="car" value="#{searchController.result}" columns="3" 
+                            rows="12" paginator="true" id="searchResult"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+
+                            <f:facet name="header">
+                               Sonuclar
+                            </f:facet>
+
+                            <p:panel header="#{car.id}" style="text-align:center">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <p:graphicImage name="demo/images/car/#{car.brand}.gif"/> 
+
+                                    <h:outputText value="#{car.year}" />
+
+                                    <p:commandLink update=":dataForm:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
+                                        <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                                        <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
+                                    </p:commandLink>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataGrid> 
+                         </h:form>
+                    
+               </p:layoutUnit>
+                </h:form>
+           </p:layout>
+        
+    </ui:define>
+
+</ui:composition>
